@@ -5,6 +5,8 @@ import { createRouter, createWebHistory } from "vue-router";
 import AxiosComponent from "../components/sub1/AxiosComponent.vue";
 import RestComponent from "../components/sub2/RestComponent.vue";
 import JwtComponent from "../components/sub3/JwtComponent.vue";
+import Login from "../components/sub3/Login.vue";
+import LoginSuccess from "../components/sub3/LoginSuccess.vue";
 
 // router 인스턴스 생성
 const router = createRouter({
@@ -12,7 +14,16 @@ const router = createRouter({
   routes: [
     { path: "/axios", name: "AxiosComponent", component: AxiosComponent },
     { path: "/rest", name: "RestComponent", component: RestComponent },
-    { path: "/jwt", name: "JwtComponent", component: JwtComponent },
+    {
+      path: "/jwt",
+      name: "JwtComponent",
+      component: JwtComponent,
+      children: [
+        { path: "", component: Login },
+        { path: "login", component: Login },
+        { path: "loginSuccess", component: LoginSuccess },
+      ],
+    },
   ],
 });
 
