@@ -30,8 +30,8 @@
 
   <h4>Get 단축함수 예제</h4>
   <input type="text" v-model="inputText" placeholder="아이디 입력" />
-  <button @click="btnGetUsre1">User1 요청</button>
-  <button @click="btnGetUsre2">User2 요청</button>
+  <button @click="btnGetUser1">User1 요청</button>
+  <button @click="btnGetUser2">User2 요청</button>
   <p>
     아이디 : {{ user.uid }}<br />
     이름 : {{ user.name }}<br />
@@ -119,7 +119,7 @@ const btnGetUser = function () {
     });
 };
 
-const btnGetUsre1 = () => {
+const btnGetUser1 = () => {
   const jsonData = { uid: inputText.value };
 
   axios
@@ -136,7 +136,7 @@ const btnGetUsre1 = () => {
       console.log(error);
     });
 };
-const btnGetUsre2 = async () => {
+const btnGetUser2 = async () => {
   const jsonData = { uid: inputText.value };
 
   try {
