@@ -1,4 +1,5 @@
 import { createStore } from "vuex";
+import axios from "axios";
 
 const store = createStore({
   state: {
@@ -14,6 +15,11 @@ const store = createStore({
     CLEAR_TODO(state) {
       state.todos = [];
     },
+    GET_TODOS(state, todos) {
+      todos.forEach((todo, index) => {
+        state.todos.push(todo.content);
+      });
+    },
   },
   actions: {
     addTodo(context, todo) {
@@ -24,6 +30,18 @@ const store = createStore({
     },
     clearTodo(context) {
       context.commit("CLEAR_TODO");
+    },
+    getTodos(context) {
+      axios
+        .get("http://localhost:8080/todos")
+        .then((response) => {
+          console.log(response);
+          const todos = response.data;
+          context.commit("GET_TODOS", todos);
+        })
+        .catch((error) => {
+          throw error;
+        });
     },
   },
   getters: {
