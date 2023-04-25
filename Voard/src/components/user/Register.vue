@@ -18,6 +18,7 @@
                     variant="outlined"
                     hide-details="true"
                     density="compact"
+                    v-model="user.uid"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="5">
@@ -27,10 +28,12 @@
               <v-row no-gutters="true" class="mb-2">
                 <v-col cols="7">
                   <v-text-field
+                    type="password"
                     label="비밀번호 입력"
                     variant="outlined"
                     hide-details="true"
                     density="compact"
+                    v-model="user.pass1"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="5"> </v-col>
@@ -38,10 +41,12 @@
               <v-row no-gutters="true" class="mb-2">
                 <v-col cols="7">
                   <v-text-field
+                    type="password"
                     label="비밀번호 확인"
                     variant="outlined"
                     hide-details="true"
                     density="compact"
+                    v-model="user.pass2"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="5"> </v-col>
@@ -61,6 +66,7 @@
                     variant="outlined"
                     hide-details="true"
                     density="compact"
+                    v-model="user.name"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="5"> </v-col>
@@ -72,6 +78,7 @@
                     variant="outlined"
                     hide-details="true"
                     density="compact"
+                    v-model="user.nick"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="5"> </v-col>
@@ -83,6 +90,7 @@
                     variant="outlined"
                     hide-details="true"
                     density="compact"
+                    v-model="user.email"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="5"> </v-col>
@@ -94,6 +102,7 @@
                     variant="outlined"
                     hide-details="true"
                     density="compact"
+                    v-model="user.hp"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="5"> </v-col>
@@ -105,6 +114,7 @@
                     variant="outlined"
                     hide-details="true"
                     density="compact"
+                    v-model="user.zip"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="5">
@@ -118,6 +128,7 @@
                     variant="outlined"
                     hide-details="true"
                     density="compact"
+                    v-model="user.addr1"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="4"> </v-col>
@@ -129,6 +140,7 @@
                     variant="outlined"
                     hide-details="true"
                     density="compact"
+                    v-model="user.addr2"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="4"> </v-col>
@@ -138,7 +150,7 @@
 
           <v-sheet class="text-center py-4">
             <v-btn class="mr-2" @click="btnCancel">취소</v-btn>
-            <v-btn color="primary" @click="">회원가입</v-btn>
+            <v-btn color="primary" @click="btnRegister">등록</v-btn>
           </v-sheet>
         </v-sheet>
       </v-container>
@@ -146,9 +158,37 @@
   </v-app>
 </template>
 <script setup>
+import axios from "axios";
+import { reactive } from "vue";
 import { useRouter } from "vue-router";
 
 const router = useRouter();
+const user = reactive({
+  uid: null,
+  pass1: null,
+  pass2: null,
+  name: null,
+  nick: null,
+  email: null,
+  hp: null,
+  zip: null,
+  addr1: null,
+  addr2: null,
+});
+
+const btnRegister = () => {
+  //console.log(user);
+  axios
+    .post("http://localhost:8080/Voard/user/register", user)
+    .then((response) => {
+      console.log(response);
+      alert("회원가입 완료!");
+      router.push("/user/login");
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
 
 const btnCancel = () => {
   router.push("/user/login");
