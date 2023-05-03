@@ -16,7 +16,7 @@ onBeforeMount(() => {
 
   if (accessToken != null) {
     axios
-      .get("http://localhost:8080/Voard/user", {
+      .get("/user", {
         headers: { "X-AUTH-TOKEN": accessToken },
       })
       .then((response) => {

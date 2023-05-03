@@ -22,26 +22,16 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td class="text-center">1</td>
-                <td class="text-left">제목입니다.</td>
-                <td class="text-center">길동이</td>
-                <td class="text-center">12</td>
-                <td class="text-center">23-04-24</td>
-              </tr>
-              <tr>
-                <td class="text-center">2</td>
-                <td class="text-left">제목입니다.</td>
-                <td class="text-center">길동이</td>
-                <td class="text-center">12</td>
-                <td class="text-center">23-04-24</td>
-              </tr>
-              <tr>
-                <td class="text-center">3</td>
-                <td class="text-left">제목입니다.</td>
-                <td class="text-center">길동이</td>
-                <td class="text-center">12</td>
-                <td class="text-center">23-04-24</td>
+              <tr v-for="(article, index) in state.data.articles">
+                <td class="text-center">
+                  {{ state.data.pageStartNum - index }}
+                </td>
+                <td class="text-left">{{ article.title }}</td>
+                <td class="text-center">{{ article.nick }}</td>
+                <td class="text-center">{{ article.hit }}</td>
+                <td class="text-center">
+                  {{ article.rdate.substring(2, 10) }}
+                </td>
               </tr>
             </tbody>
           </v-table>
@@ -50,8 +40,10 @@
           </v-sheet>
           <div class="text-center">
             <v-pagination
-              :length="100"
-              :total-visible="7"
+              :length="state.data.lastPage"
+              :total-visible="5"
+              v-model="page"
+              @click="pageClickHandler"
               rounded="circle"
             ></v-pagination>
           </div>
@@ -63,12 +55,19 @@
 <script setup>
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
-import { computed } from "vue";
+import { computed, onBeforeMount, reactive, ref } from "vue";
+import axios from "axios";
 
 const router = useRouter();
 const store = useStore();
 
 const user = computed(() => store.getters.user);
+
+const state = reactive({
+  data: {},
+});
+
+const page = ref(1);
 
 const btnLogout = () => {
   localStorage.removeItem("accessToken");
@@ -77,6 +76,26 @@ const btnLogout = () => {
 
 const btnWrite = () => {
   router.push("/write");
+};
+
+const pageClickHandler = () => {
+  getArticles(page.value);
+};
+
+onBeforeMount(() => {
+  getArticles(1);
+});
+
+const getArticles = (page) => {
+  axios
+    .get("/list?pg=" + page)
+    .then((response) => {
+      console.log(response);
+      state.data = response.data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };
 </script>
 <style scoped></style>

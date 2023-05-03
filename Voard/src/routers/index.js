@@ -5,6 +5,7 @@ import Register from "../components/user/Register.vue";
 import List from "../components/List.vue";
 import Write from "../components/Write.vue";
 import Modify from "../components/Modify.vue";
+import View from "../components/View.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -15,6 +16,7 @@ const router = createRouter({
     { path: "/list", name: "List", component: List },
     { path: "/write", name: "Write", component: Write },
     { path: "/modify", name: "Modify", component: Modify },
+    { path: "/view", name: "View", component: View },
   ],
 });
 
